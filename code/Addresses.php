@@ -21,6 +21,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
+use SwipeStripe\Admin\ShopAdmin;
 
 class Addresses_Order extends DataExtension {
 
