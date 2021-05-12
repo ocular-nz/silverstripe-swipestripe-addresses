@@ -1,4 +1,8 @@
 <?php
+
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\DataObject;
+
 /**
  * Regions for countries
  * 

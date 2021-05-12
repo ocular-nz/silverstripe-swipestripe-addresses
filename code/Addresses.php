@@ -338,7 +338,7 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 	);
 
 	private static $url_rule = 'ShopConfig/Countries';
-	protected static $url_priority = 70;
+	private static $url_priority = 70;
 	private static $menu_title = 'Shop Countries';
 
 	private static $url_handlers = array(
