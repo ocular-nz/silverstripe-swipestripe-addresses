@@ -1,4 +1,7 @@
 <?php
+
+use SilverStripe\ORM\DataObject;
+
 /**
  * Represents a shipping or billing address which are both attached to {@link Order}.
  * 
