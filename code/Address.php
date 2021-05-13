@@ -1,6 +1,7 @@
 <?php
 
 use SilverStripe\ORM\DataObject;
+use SwipeStripe\Customer\Customer;
 
 /**
  * Represents a shipping or billing address which are both attached to {@link Order}.
@@ -41,9 +42,9 @@ class Address extends DataObject {
 	 * @var Array
 	 */
 	private static $has_one = array(
-		'Member' => 'Customer',  
-		'Country' => 'Country',
-		'Region' => 'Region'
+		'Member' => Customer::class,  
+		'Country' => Country::class,
+		'Region' => Region::class
 	);
 
 	public function onAfterWrite() {

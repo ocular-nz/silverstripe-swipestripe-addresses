@@ -2,6 +2,7 @@
 
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DataObject;
+use SwipeStripe\Admin\ShopConfig;
 
 /**
  * Regions for countries
@@ -44,8 +45,8 @@ class Region extends DataObject {
 	 * @var Array
 	 */
 	private static $has_one = array (
-		'ShopConfig' => 'ShopConfig',
-		'Country' => 'Country'
+		'ShopConfig' => ShopConfig::class,
+		'Country' => Country::class
 	);
 	
 	/**

@@ -7,6 +7,7 @@ use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SwipeStripe\Admin\ShopConfig;
 
 /**
  * Countries for shipping and billing addresses.
@@ -299,7 +300,7 @@ class Country extends DataObject {
 	 * @var Array
 	 */
 	private static $has_one = array (
-		'ShopConfig' => 'ShopConfig'
+		'ShopConfig' => ShopConfig::class
 	);
 	
 	/**
@@ -308,7 +309,7 @@ class Country extends DataObject {
 	 * @var Array
 	 */
 	private static $has_many = array (
-		'Regions' => 'Region'
+		'Regions' => Region::class
 	);
 	
 	/**
