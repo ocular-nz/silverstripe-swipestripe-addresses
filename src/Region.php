@@ -14,45 +14,46 @@ use SwipeStripe\Admin\ShopConfig;
  * @package swipestripe
  * @subpackage order
  */
-class Region extends DataObject {
+class Region extends DataObject
+{
 
 	private static $table_name = 'Region';
-	
+
 	/**
 	 * Singular name
 	 * 
 	 * @var String
 	 */
 	private static $singular_name = 'Region';
-	
+
 	/**
 	 * Plural name
 	 * 
 	 * @var String
 	 */
 	private static $plural_name = 'Regions';
-	 
+
 	/**
 	 * Fields 
 	 * 
 	 * @var Array
 	 */
 	private static $db = array(
-		'Code' => "Varchar", 
+		'Code' => "Varchar",
 		'Title' => 'Varchar',
 		'SortOrder' => 'Int'
 	);
-	
+
 	/**
 	 * Managed via the SiteConfig, regions are related to Countries
 	 * 
 	 * @var Array
 	 */
-	private static $has_one = array (
+	private static $has_one = array(
 		'ShopConfig' => ShopConfig::class,
 		'Country' => Country::class
 	);
-	
+
 	/**
 	 * Summary fields
 	 * 
@@ -69,16 +70,18 @@ class Region extends DataObject {
 	/**
 	 * Convenience function to prevent errors thrown
 	 */
-	public function forTemplate() {
-		return;   
+	public function forTemplate()
+	{
+		return;
 	}
-	
+
 	/**
 	 * Retrieve map of shipping regions including Country code
 	 * 
 	 * @return Array 
 	 */
-	public static function shipping_map() {
+	public static function shipping_map()
+	{
 
 		$countryRegions = array();
 		$regions = Region_Shipping::get();
@@ -101,14 +104,16 @@ class Region extends DataObject {
  * @package swipestripe
  * @subpackage order
  */
-class Region_Shipping extends Region {
+class Region_Shipping extends Region
+{
 
 	/**
 	 * Fields for CRUD of shipping regions
 	 * 
 	 * @see DataObject::getCMSFields()
 	 */
-	public function getCMSFields() {
+	public function getCMSFields()
+	{
 
 		// $fields = new FieldList(
 		//   $rootTab = new TabSet('Root',
@@ -137,7 +142,6 @@ class Region_Shipping extends Region {
  * @package swipestripe
  * @subpackage order
  */
-class Region_Billing extends Region {
-
+class Region_Billing extends Region
+{
 }
-

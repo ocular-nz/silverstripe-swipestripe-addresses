@@ -19,24 +19,25 @@ use SwipeStripe\Admin\ShopConfig;
  * @package swipestripe
  * @subpackage order
  */
-class Country extends DataObject {
+class Country extends DataObject
+{
 
 	private static $table_name = 'Country';
-	
+
 	/**
 	 * Singular name
 	 * 
 	 * @var String
 	 */
 	private static $singular_name = 'Country';
-	
+
 	/**
 	 * Plural name
 	 * 
 	 * @var String
 	 */
 	private static $plural_name = 'Countries';
-	
+
 	/** 
 	 * ISO 3166 Country Codes, used to generate inital billing countries
 	 * 
@@ -297,25 +298,25 @@ class Country extends DataObject {
 		'Code' => 'Varchar(2)', //ISO 3166 
 		'Title' => 'Varchar'
 	);
-	
+
 	/**
 	 * Associated with SiteConfig to enable editing
 	 * 
 	 * @var Array
 	 */
-	private static $has_one = array (
+	private static $has_one = array(
 		'ShopConfig' => ShopConfig::class
 	);
-	
+
 	/**
 	 * Countries can have many regions
 	 * 
 	 * @var Array
 	 */
-	private static $has_many = array (
+	private static $has_many = array(
 		'Regions' => Region::class
 	);
-	
+
 	/**
 	 * Summary fields
 	 * 
@@ -328,7 +329,8 @@ class Country extends DataObject {
 
 	private static $default_sort = 'Title ASC';
 
-	public static function get_codes() {
+	public static function get_codes()
+	{
 		return self::$iso_3166_countryCodes;
 	}
 
@@ -343,13 +345,17 @@ class Country extends DataObject {
  * @package swipestripe
  * @subpackage order
  */
-class Country_Shipping extends Country {
+class Country_Shipping extends Country
+{
 
-	public function getCMSFields() {
+	public function getCMSFields()
+	{
 
 		$fields = new FieldList(
-			$rootTab = new TabSet('Root',
-				$tabMain = new Tab('Country',
+			$rootTab = new TabSet(
+				'Root',
+				$tabMain = new Tab(
+					'Country',
 					TextField::create('Code', _t('Country.CODE', 'Code')),
 					TextField::create('Title', _t('Country.TITLE', 'Title'))
 				)
@@ -375,7 +381,8 @@ class Country_Shipping extends Country {
 		return $fields;
 	}
 
-	public function Regions() {
+	public function Regions()
+	{
 		return Region_Shipping::get()
 			->where("\"CountryID\" = " . $this->ID);
 	}
@@ -389,16 +396,18 @@ class Country_Shipping extends Country {
  * @package swipestripe
  * @subpackage order
  */
-class Country_Billing extends Country {
-	
+class Country_Billing extends Country
+{
+
 	/**
 	 * Build default list of billing countries
 	 * 
 	 * @see Country::$iso_3166_countryCodes
 	 * @see DataObject::requireDefaultRecords()
 	 */
-	public function requireDefaultRecords() {
-		
+	public function requireDefaultRecords()
+	{
+
 		parent::requireDefaultRecords();
 
 		if (!DataObject::get_one('Country_Billing')) {
@@ -417,14 +426,12 @@ class Country_Billing extends Country {
 			} else {
 				DB::alteration_message('Billing countries not created, please re-run /dev/build', 'error');
 			}
-			
-			
 		}
 	}
 
-	public function Regions() {
+	public function Regions()
+	{
 		return Region_Billing::get()
 			->where("\"CountryID\" = " . $this->ID);
 	}
 }
-

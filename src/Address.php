@@ -13,7 +13,8 @@ use SwipeStripe\Customer\Customer;
  * @package swipestripe
  * @subpackage order
  */
-class Address extends DataObject {
+class Address extends DataObject
+{
 
 	private static $table_name = 'Address';
 
@@ -46,12 +47,13 @@ class Address extends DataObject {
 	 * @var Array
 	 */
 	private static $has_one = array(
-		'Member' => Customer::class,  
+		'Member' => Customer::class,
 		'Country' => Country::class,
 		'Region' => Region::class
 	);
 
-	public function onAfterWrite() {
+	public function onAfterWrite()
+	{
 		parent::onAfterWrite();
 
 		//Make sure there is only one default address
@@ -66,12 +68,13 @@ class Address extends DataObject {
 			}
 		}
 	}
-	
 }
 
-class Address_Shipping extends Address {
+class Address_Shipping extends Address
+{
 
-	public function onBeforeWrite() {
+	public function onBeforeWrite()
+	{
 		parent::onBeforeWrite();
 
 		$code = $this->CountryCode;
@@ -102,9 +105,10 @@ class Address_Shipping extends Address {
 	 * @see Form::loadDataFrom()
 	 * @return Array Data for loading into the form
 	 */
-	public function getCheckoutFormData() {
+	public function getCheckoutFormData()
+	{
 		$formattedData = array();
-		
+
 		$formattedData['ShippingFirstName'] = $this->FirstName;
 		$formattedData['ShippingSurname'] = $this->Surname;
 		$formattedData['ShippingCompany'] = $this->Company;
@@ -115,14 +119,16 @@ class Address_Shipping extends Address {
 		$formattedData['ShippingState'] = $this->State;
 		$formattedData['ShippingCountryCode'] = $this->CountryCode;
 		$formattedData['ShippingRegionCode'] = $this->RegionCode;
-		
+
 		return $formattedData;
 	}
 }
 
-class Address_Billing extends Address {
+class Address_Billing extends Address
+{
 
-	public function onBeforeWrite() {
+	public function onBeforeWrite()
+	{
 		parent::onBeforeWrite();
 
 		$code = $this->CountryCode;
@@ -143,9 +149,10 @@ class Address_Billing extends Address {
 	 * @see Form::loadDataFrom()
 	 * @return Array Data for loading into the form
 	 */
-	public function getCheckoutFormData() {
+	public function getCheckoutFormData()
+	{
 		$formattedData = array();
-		
+
 		$formattedData['BillingFirstName'] = $this->FirstName;
 		$formattedData['BillingSurname'] = $this->Surname;
 		$formattedData['BillingCompany'] = $this->Company;
@@ -155,7 +162,7 @@ class Address_Billing extends Address {
 		$formattedData['BillingPostalCode'] = $this->PostalCode;
 		$formattedData['BillingState'] = $this->State;
 		$formattedData['BillingCountryCode'] = $this->CountryCode;
-		
+
 		return $formattedData;
 	}
 }

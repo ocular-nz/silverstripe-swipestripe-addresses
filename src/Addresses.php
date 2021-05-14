@@ -25,7 +25,8 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Admin\ShopAdmin;
 
-class Addresses_Order extends DataExtension {
+class Addresses_Order extends DataExtension
+{
 
 	private static $db = array(
 		//Address fields
@@ -56,7 +57,8 @@ class Addresses_Order extends DataExtension {
 		'BillingRegionCode' => 'Varchar(2)'
 	);
 
-	public function onBeforeWrite() {
+	public function onBeforeWrite()
+	{
 
 		//Update address names
 		$country = Country_Shipping::get()->where("\"Code\" = '{$this->owner->ShippingCountryCode}'")->first();
@@ -69,7 +71,8 @@ class Addresses_Order extends DataExtension {
 		if ($country && $country->exists()) $this->owner->BillingCountryName = $country->Title;
 	}
 
-	public function onBeforePayment() {
+	public function onBeforePayment()
+	{
 
 		//Save the addresses to the Customer
 		$customer = $this->owner->Member();
@@ -79,30 +82,32 @@ class Addresses_Order extends DataExtension {
 	}
 }
 
-class Addresses_Customer extends DataExtension {
+class Addresses_Customer extends DataExtension
+{
 
 	private static $has_many = array(
 		'ShippingAddresses' => 'Address_Shipping',
 		'BillingAddresses' => 'Address_Billing'
 	);
 
-	public function createAddresses($order) {
+	public function createAddresses($order)
+	{
 		//Find identical addresses
 		//If none exist then create a new address and set it as default
 		//Default is not used when comparing
 
 		$data = $order->toMap();
-		
+
 		// Set Firstname/Surname Fields on Member table
-		if(!$this->owner->FirstName) {
+		if (!$this->owner->FirstName) {
 			$this->owner->FirstName = $data['ShippingFirstName'];
 			$this->owner->write();
 		}
-		if(!$this->owner->Surname) {
+		if (!$this->owner->Surname) {
 			$this->owner->Surname = $data['ShippingSurname'];
 			$this->owner->write();
 		}
-		
+
 		$shippingAddress = Address_Shipping::create(array(
 			'MemberID' => $this->owner->ID,
 			'FirstName' => (isset($data['ShippingFirstName'])) ? $data['ShippingRegionName'] : null,
@@ -179,7 +184,8 @@ class Addresses_Customer extends DataExtension {
 	 * 
 	 * @return Address The last billing address
 	 */
-	public function BillingAddress() {
+	public function BillingAddress()
+	{
 
 		$addrs = $this->owner->BillingAddresses();
 		if ($addrs && $addrs->exists()) {
@@ -189,14 +195,15 @@ class Addresses_Customer extends DataExtension {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retrieve the last used shipping address for this Member from their previous saved addresses.
 	 * TODO make this more efficient
 	 * 
 	 * @return Address The last shipping address
 	 */
-	public function ShippingAddress() {
+	public function ShippingAddress()
+	{
 
 		$addrs = $this->owner->ShippingAddresses();
 		if ($addrs && $addrs->exists()) {
@@ -208,69 +215,74 @@ class Addresses_Customer extends DataExtension {
 	}
 }
 
-class Addresses_OrderForm extends Extension {
+class Addresses_OrderForm extends Extension
+{
 
-	public function updateFields($fields) {
+	public function updateFields($fields)
+	{
 
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript('swipestripe-addresses/javascript/Addresses_OrderForm.js');
 
 		$shippingAddressFields = CompositeField::create(
-			HeaderField::create(_t('CheckoutPage.SHIPPING_ADDRESS',"Shipping Address"), 3),
-			TextField::create('ShippingFirstName', _t('CheckoutPage.FIRSTNAME',"First Name"))
+			HeaderField::create(_t('CheckoutPage.SHIPPING_ADDRESS', "Shipping Address"), 3),
+			TextField::create('ShippingFirstName', _t('CheckoutPage.FIRSTNAME', "First Name"))
 				->addExtraClass('shipping-firstname')
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_FIRSTNAME',"Please enter a first name.")),
-			TextField::create('ShippingSurname', _t('CheckoutPage.SURNAME',"Surname"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_SURNAME',"Please enter a surname.")),
-			TextField::create('ShippingCompany', _t('CheckoutPage.COMPANY',"Company")),
-			TextField::create('ShippingAddress', _t('CheckoutPage.ADDRESS',"Address"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_ADDRESS',"Please enter an address."))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_FIRSTNAME', "Please enter a first name.")),
+			TextField::create('ShippingSurname', _t('CheckoutPage.SURNAME', "Surname"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_SURNAME', "Please enter a surname.")),
+			TextField::create('ShippingCompany', _t('CheckoutPage.COMPANY', "Company")),
+			TextField::create('ShippingAddress', _t('CheckoutPage.ADDRESS', "Address"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_ADDRESS', "Please enter an address."))
 				->addExtraClass('address-break'),
 			TextField::create('ShippingAddressLine2', '&nbsp;'),
-			TextField::create('ShippingCity', _t('CheckoutPage.CITY',"City"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_CITY',"Please enter a city.")),
-			TextField::create('ShippingPostalCode', _t('CheckoutPage.POSTAL_CODE',"Zip / Postal Code")),
-			TextField::create('ShippingState', _t('CheckoutPage.STATE',"State / Province"))
+			TextField::create('ShippingCity', _t('CheckoutPage.CITY', "City"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_CITY', "Please enter a city.")),
+			TextField::create('ShippingPostalCode', _t('CheckoutPage.POSTAL_CODE', "Zip / Postal Code")),
+			TextField::create('ShippingState', _t('CheckoutPage.STATE', "State / Province"))
 				->addExtraClass('address-break'),
-			DropdownField::create('ShippingCountryCode', 
-					_t('CheckoutPage.COUNTRY',"Country"), 
-					Country_Shipping::get()->map('Code', 'Title')->toArray()
-				)
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_COUNTRY',"Please enter a country."))
+			DropdownField::create(
+				'ShippingCountryCode',
+				_t('CheckoutPage.COUNTRY', "Country"),
+				Country_Shipping::get()->map('Code', 'Title')->toArray()
+			)
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_COUNTRY', "Please enter a country."))
 				->addExtraClass('country-code')
 		)->setID('ShippingAddress')->setName('ShippingAddress');
 
 		$billingAddressFields = CompositeField::create(
-			HeaderField::create(_t('CheckoutPage.BILLINGADDRESS',"Billing Address"), 3),
-			$checkbox = CheckboxField::create('BillToShippingAddress', _t('CheckoutPage.SAME_ADDRESS',"same as shipping address?"))
+			HeaderField::create(_t('CheckoutPage.BILLINGADDRESS', "Billing Address"), 3),
+			$checkbox = CheckboxField::create('BillToShippingAddress', _t('CheckoutPage.SAME_ADDRESS', "same as shipping address?"))
 				->addExtraClass('shipping-same-address'),
-			TextField::create('BillingFirstName', _t('CheckoutPage.FIRSTNAME',"First Name"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURFIRSTNAME',"Please enter your first name."))
+			TextField::create('BillingFirstName', _t('CheckoutPage.FIRSTNAME', "First Name"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURFIRSTNAME', "Please enter your first name."))
 				->addExtraClass('address-break'),
-			TextField::create('BillingSurname', _t('CheckoutPage.SURNAME',"Surname"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURSURNAME',"Please enter your surname.")),
-			TextField::create('BillingCompany', _t('CheckoutPage.COMPANY',"Company")),
-			TextField::create('BillingAddress', _t('CheckoutPage.ADDRESS',"Address"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURADDRESS',"Please enter your address."))
+			TextField::create('BillingSurname', _t('CheckoutPage.SURNAME', "Surname"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURSURNAME', "Please enter your surname.")),
+			TextField::create('BillingCompany', _t('CheckoutPage.COMPANY', "Company")),
+			TextField::create('BillingAddress', _t('CheckoutPage.ADDRESS', "Address"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURADDRESS', "Please enter your address."))
 				->addExtraClass('address-break'),
 			TextField::create('BillingAddressLine2', '&nbsp;'),
-			TextField::create('BillingCity', _t('CheckoutPage.CITY',"City"))
-				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCITY',"Please enter your city")),
-			TextField::create('BillingPostalCode', _t('CheckoutPage.POSTALCODE',"Zip / Postal Code")),
-			TextField::create('BillingState', _t('CheckoutPage.STATE',"State / Province"))
+			TextField::create('BillingCity', _t('CheckoutPage.CITY', "City"))
+				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCITY', "Please enter your city")),
+			TextField::create('BillingPostalCode', _t('CheckoutPage.POSTALCODE', "Zip / Postal Code")),
+			TextField::create('BillingState', _t('CheckoutPage.STATE', "State / Province"))
 				->addExtraClass('address-break'),
-			DropdownField::create('BillingCountryCode', 
-					_t('CheckoutPage.COUNTRY',"Country"), 
-					Country_Billing::get()->map('Code', 'Title')->toArray()
-				)->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCOUNTRY',"Please enter your country."))
+			DropdownField::create(
+				'BillingCountryCode',
+				_t('CheckoutPage.COUNTRY', "Country"),
+				Country_Billing::get()->map('Code', 'Title')->toArray()
+			)->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCOUNTRY', "Please enter your country."))
 		)->setID('BillingAddress')->setName('BillingAddress');
 
 		$fields->push($shippingAddressFields);
 		$fields->push($billingAddressFields);
 	}
 
-	public function updateValidator($validator) {
+	public function updateValidator($validator)
+	{
 
 		$validator->appendRequiredFields(RequiredFields::create(
 			'ShippingFirstName',
@@ -286,18 +298,19 @@ class Addresses_OrderForm extends Extension {
 		));
 	}
 
-	public function updatePopulateFields(&$data) {
+	public function updatePopulateFields(&$data)
+	{
 
 		$member = Customer::currentUser() ? Customer::currentUser() : singleton('Customer');
 
 		$shippingAddress = $member->ShippingAddress();
-		$shippingAddressData = ($shippingAddress && $shippingAddress->exists()) 
+		$shippingAddressData = ($shippingAddress && $shippingAddress->exists())
 			? $shippingAddress->getCheckoutFormData()
 			: array();
 		unset($shippingAddressData['ShippingRegionCode']); //Not available billing address option
 
 		$billingAddress = $member->BillingAddress();
-		$billingAddressData = ($billingAddress && $billingAddress->exists()) 
+		$billingAddressData = ($billingAddress && $billingAddress->exists())
 			? $billingAddress->getCheckoutFormData()
 			: array();
 
@@ -306,22 +319,25 @@ class Addresses_OrderForm extends Extension {
 		if (array_values($intersect) == array_values($billingAddressData)) $billingAddressData['BillToShippingAddress'] = true;
 
 		$data = array_merge(
-			$data, 
+			$data,
 			$shippingAddressData,
 			$billingAddressData
 		);
 	}
 
-	public function getShippingAddressFields() {
+	public function getShippingAddressFields()
+	{
 		return $this->owner->Fields()->fieldByName('ShippingAddress');
 	}
 
-	public function getBillingAddressFields() {
+	public function getBillingAddressFields()
+	{
 		return $this->owner->Fields()->fieldByName('BillingAddress');
 	}
 }
 
-class Addresses_Extension extends DataExtension {
+class Addresses_Extension extends DataExtension
+{
 
 	private static $has_many = array(
 		'ShippingCountries' => 'Country_Shipping',
@@ -331,10 +347,11 @@ class Addresses_Extension extends DataExtension {
 	);
 }
 
-class Addresses_CountriesAdmin extends ShopAdmin {
+class Addresses_CountriesAdmin extends ShopAdmin
+{
 
 	private static $tree_class = 'ShopConfig';
-	
+
 	private static $allowed_actions = array(
 		'Countries',
 		'CountriesForm'
@@ -349,14 +366,16 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 		'ShopConfig/Countries' => 'Countries'
 	);
 
-	public function init() {
+	public function init()
+	{
 		parent::init();
 		if (!in_array(get_class($this), self::$hidden_sections)) {
 			$this->modelClass = 'ShopConfig';
 		}
 	}
 
-	public function Breadcrumbs($unlinked = false) {
+	public function Breadcrumbs($unlinked = false)
+	{
 
 		$request = $this->getRequest();
 		$items = parent::Breadcrumbs($unlinked);
@@ -371,44 +390,49 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 		return $items;
 	}
 
-	public function SettingsForm($request = null) {
+	public function SettingsForm($request = null)
+	{
 		return $this->CountriesForm();
 	}
 
-	public function Countries($request) {
+	public function Countries($request)
+	{
 
 		if ($request->isAjax()) {
 			$controller = $this;
 			$responseNegotiator = new PjaxResponseNegotiator(
 				array(
-					'CurrentForm' => function() use(&$controller) {
+					'CurrentForm' => function () use (&$controller) {
 						return $controller->CountriesForm()->forTemplate();
 					},
-					'Content' => function() use(&$controller) {
+					'Content' => function () use (&$controller) {
 						return $controller->renderWith('ShopAdminSettings_Content');
 					},
-					'Breadcrumbs' => function() use (&$controller) {
+					'Breadcrumbs' => function () use (&$controller) {
 						return $controller->renderWith('CMSBreadcrumbs');
 					},
-					'default' => function() use(&$controller) {
+					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
 					}
 				),
 				$this->response
-			); 
+			);
 			return $responseNegotiator->respond($this->getRequest());
 		}
 
 		return $this->renderWith('ShopAdminSettings');
 	}
 
-	public function CountriesForm() {
+	public function CountriesForm()
+	{
 
 		$shopConfig = ShopConfig::get()->First();
 
 		$fields = new FieldList(
-			$rootTab = new TabSet("Root",
-				$tabMain = new Tab('Shipping',
+			$rootTab = new TabSet(
+				"Root",
+				$tabMain = new Tab(
+					'Shipping',
 					new HiddenField('ShopConfigSection', null, 'Countries'),
 					new GridField(
 						'ShippingCountries',
@@ -419,7 +443,8 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 							->removeComponentsByType('GridFieldAddExistingAutocompleter')
 					)
 				),
-				new Tab('Billing',
+				new Tab(
+					'Billing',
 					new GridField(
 						'BillingCountries',
 						'Billing Countries',
@@ -444,7 +469,7 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 		$form->setTemplate('ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
-		if($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
+		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
 		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelClass)), 'Countries/CountriesForm'));
 
 		$form->loadDataFrom($shopConfig);
@@ -452,7 +477,8 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 		return $form;
 	}
 
-	public function getSnippet() {
+	public function getSnippet()
+	{
 
 		if (!$member = Member::currentUser()) return false;
 		if (!Permission::check('CMS_ACCESS_' . get_class($this), 'any', $member)) return false;
@@ -464,5 +490,4 @@ class Addresses_CountriesAdmin extends ShopAdmin {
 			'LinkTitle' => 'Edit Countries and Regions'
 		))->renderWith('ShopAdmin_Snippet');
 	}
-
 }
