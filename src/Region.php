@@ -1,6 +1,6 @@
 <?php
 
-namespace SwipeStripeAddresses;
+namespace Addresses;
 
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DataObject;

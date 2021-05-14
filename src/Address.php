@@ -1,6 +1,6 @@
 <?php
 
-namespace SwipeStripeAddresses;
+namespace Addresses;
 
 use SilverStripe\ORM\DataObject;
 use SwipeStripe\Customer\Customer;
