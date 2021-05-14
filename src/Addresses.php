@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeAddresses;
+
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\PjaxResponseNegotiator;
 use SilverStripe\Core\Extension;

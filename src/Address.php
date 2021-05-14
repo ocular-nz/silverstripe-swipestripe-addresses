@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeAddresses;
+
 use SilverStripe\ORM\DataObject;
 use SwipeStripe\Customer\Customer;
 
@@ -12,6 +14,8 @@ use SwipeStripe\Customer\Customer;
  * @subpackage order
  */
 class Address extends DataObject {
+
+	private static $table_name = 'Address';
 
 	/**
 	 * DB fields for an address

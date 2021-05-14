@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeAddresses;
+
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DataObject;
 use SwipeStripe\Admin\ShopConfig;
@@ -13,6 +15,8 @@ use SwipeStripe\Admin\ShopConfig;
  * @subpackage order
  */
 class Region extends DataObject {
+
+	private static $table_name = 'Region';
 	
 	/**
 	 * Singular name

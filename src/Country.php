@@ -1,5 +1,7 @@
 <?php
 
+namespace SwipeStripeAddresses;
+
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Tab;
@@ -18,6 +20,8 @@ use SwipeStripe\Admin\ShopConfig;
  * @subpackage order
  */
 class Country extends DataObject {
+
+	private static $table_name = 'Country';
 	
 	/**
 	 * Singular name
