@@ -24,6 +24,7 @@ use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Admin\ShopAdmin;
+use SwipeStripe\Admin\ShopConfig;
 
 class Addresses_Order extends DataExtension
 {
@@ -86,8 +87,8 @@ class Addresses_Customer extends DataExtension
 {
 
 	private static $has_many = array(
-		'ShippingAddresses' => 'Address_Shipping',
-		'BillingAddresses' => 'Address_Billing'
+		'ShippingAddresses' => Address_Shipping::class,
+		'BillingAddresses' => Address_Billing::class
 	);
 
 	public function createAddresses($order)
@@ -340,10 +341,10 @@ class Addresses_Extension extends DataExtension
 {
 
 	private static $has_many = array(
-		'ShippingCountries' => 'Country_Shipping',
-		'BillingCountries' => 'Country_Billing',
-		'ShippingRegions' => 'Region_Shipping',
-		'BillingRegions' => 'Region_Billing'
+		'ShippingCountries' => Country_Shipping::class,
+		'BillingCountries' => Country_Billing::class,
+		'ShippingRegions' => Region_Shipping::class,
+		'BillingRegions' => Region_Billing::class
 	);
 }
 
@@ -370,7 +371,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 	{
 		parent::init();
 		if (!in_array(get_class($this), self::$hidden_sections)) {
-			$this->modelClass = 'ShopConfig';
+			$this->modelClass = ShopConfig::class;
 		}
 	}
 

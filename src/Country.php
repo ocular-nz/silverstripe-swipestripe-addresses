@@ -410,7 +410,7 @@ class Country_Billing extends Country
 
 		parent::requireDefaultRecords();
 
-		if (!DataObject::get_one('Country_Billing')) {
+		if (!DataObject::get_one(Country_Billing::class)) {
 
 			$shopConfig = ShopConfig::current_shop_config();
 
