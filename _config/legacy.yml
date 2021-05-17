@@ -1,0 +1,15 @@
+---
+Name: address-legacy
+---
+SilverStripe\ORM\DatabaseAdmin:
+  classname_value_remapping:
+    Address: Addresses\Address
+    Address_Shipping: Addresses\Address_Shipping
+    Address_Billing: Addresses\Address_Billing
+    Country: Addresses\Country
+    Country_Shipping: Addresses\Country_Shipping
+    Country_Billing: Addresses\Country_Billing
+    Region: Addresses\Region
+    Region_Shipping: Addresses\Region_Shipping
+    Region_Billing: Addresses\Region_Billing
+    
