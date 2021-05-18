@@ -2,15 +2,15 @@
 name: swipestripeaddresses
 ---
 
-Order:
+SwipeStripe\Order\Order:
   extensions: 
-    - 'Addresses_Order'
-Customer:
+    - 'Addresses\Addresses_Order'
+SwipeStripe\Customer\Customer:
   extensions: 
-    - 'Addresses_Customer'
-OrderForm:
+    - 'Addresses\Addresses_Customer'
+SwipeStripe\Form\OrderForm:
   extensions: 
-    - 'Addresses_OrderForm'
-ShopConfig:
+    - 'Addresses\Addresses_OrderForm'
+SwipeStripe\Admin\ShopConfig:
   extensions: 
-    - 'Addresses_Extension'
+    - 'Addresses\Addresses_Extension'
