@@ -366,7 +366,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 		'ShopConfig/Countries' => 'Countries'
 	);
 
-	public function init()
+	protected function init()
 	{
 		parent::init();
 		if (!in_array(get_class($this), self::$hidden_sections)) {
