@@ -21,10 +21,12 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Admin\ShopAdmin;
 use SwipeStripe\Admin\ShopConfig;
+use SwipeStripe\Customer\Customer;
 
 class Addresses_Order extends DataExtension
 {
@@ -350,7 +352,7 @@ class Addresses_Extension extends DataExtension
 class Addresses_CountriesAdmin extends ShopAdmin
 {
 
-	private static $tree_class = 'ShopConfig';
+	private static $tree_class = ShopConfig::class;
 
 	private static $allowed_actions = array(
 		'Countries',
@@ -480,7 +482,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 	public function getSnippet()
 	{
 
-		if (!$member = Member::currentUser()) return false;
+		if (!$member = Security::getCurrentUser()) return false;
 		if (!Permission::check('CMS_ACCESS_' . get_class($this), 'any', $member)) return false;
 
 		return $this->customise(array(
@@ -488,6 +490,6 @@ class Addresses_CountriesAdmin extends ShopAdmin
 			'Help' => 'Shipping and billing countries and regions.',
 			'Link' => Controller::join_links($this->Link('ShopConfig'), 'Countries'),
 			'LinkTitle' => 'Edit Countries and Regions'
-		))->renderWith('ShopAdmin_Snippet');
+		))->renderWith('Includes\ShopAdmin_Snippet');
 	}
 }

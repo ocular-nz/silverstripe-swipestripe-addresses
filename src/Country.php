@@ -9,6 +9,7 @@ use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SwipeStripe\Admin\GridFieldConfig_BasicSortable;
 use SwipeStripe\Admin\ShopConfig;
 
 /**
