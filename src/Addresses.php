@@ -359,13 +359,13 @@ class Addresses_CountriesAdmin extends ShopAdmin
 		'CountriesForm'
 	);
 
-	private static $url_rule = 'ShopConfig/Countries';
+	private static $url_rule = 'SwipeStripe-Admin-ShopConfig/Countries';
 	private static $url_priority = 70;
 	private static $menu_title = 'Shop Countries';
 
 	private static $url_handlers = array(
-		'ShopConfig/Countries/CountriesForm' => 'CountriesForm',
-		'ShopConfig/Countries' => 'Countries'
+		'SwipeStripe-Admin-ShopConfig/Countries/CountriesForm' => 'CountriesForm',
+		'SwipeStripe-Admin-ShopConfig/Countries' => 'Countries'
 	);
 
 	protected function init()
@@ -408,7 +408,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 						return $controller->CountriesForm()->forTemplate();
 					},
 					'Content' => function () use (&$controller) {
-						return $controller->renderWith('ShopAdminSettings_Content');
+						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
 						return $controller->renderWith('CMSBreadcrumbs');
@@ -488,8 +488,8 @@ class Addresses_CountriesAdmin extends ShopAdmin
 		return $this->customise(array(
 			'Title' => 'Countries and Regions',
 			'Help' => 'Shipping and billing countries and regions.',
-			'Link' => Controller::join_links($this->Link('ShopConfig'), 'Countries'),
+			'Link' => Controller::join_links($this->Link($this->sanitiseClassName(ShopConfig::class)), 'Countries'),
 			'LinkTitle' => 'Edit Countries and Regions'
-		))->renderWith('Includes\ShopAdmin_Snippet');
+		))->renderWith('Includes/ShopAdmin_Snippet');
 	}
 }
