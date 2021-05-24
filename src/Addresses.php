@@ -411,7 +411,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
-						return $controller->renderWith('CMSBreadcrumbs');
+						return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
 					},
 					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
@@ -422,7 +422,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 			return $responseNegotiator->respond($this->getRequest());
 		}
 
-		return $this->renderWith('ShopAdminSettings');
+		return $this->renderWith('SwipeStripe/Admin/ShopAdminSettings');
 	}
 
 	public function CountriesForm()
@@ -468,7 +468,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 			$actions
 		);
 
-		$form->setTemplate('ShopAdminSettings_EditForm');
+		$form->setTemplate('Includes/ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
 		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
