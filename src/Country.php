@@ -10,6 +10,7 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SwipeStripe\Admin\GridFieldConfig_BasicSortable;
+use SwipeStripe\Admin\GridFieldDetailForm_HasManyItemRequest;
 use SwipeStripe\Admin\ShopConfig;
 
 /**
@@ -367,7 +368,7 @@ class Country_Shipping extends Country
 
 			$config = GridFieldConfig_BasicSortable::create();
 			// $detailForm = $config->getComponentByType('GridFieldDetailForm');
-			// $detailForm->setItemRequestClass('GridFieldDetailForm_HasManyItemRequest');
+			// $detailForm->setItemRequestClass(GridFieldDetailForm_HasManyItemRequest::class);
 
 			$listField = new GridField(
 				'Regions',

@@ -224,7 +224,6 @@ class Addresses_OrderForm extends Extension
 	public function updateFields($fields)
 	{
 
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript('swipestripe-addresses/javascript/Addresses_OrderForm.js');
 
 		$shippingAddressFields = CompositeField::create(
@@ -251,7 +250,7 @@ class Addresses_OrderForm extends Extension
 			)
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_COUNTRY', "Please enter a country."))
 				->addExtraClass('country-code')
-		)->setID('ShippingAddress')->setName('ShippingAddress');
+		)->setName('ShippingAddress');
 
 		$billingAddressFields = CompositeField::create(
 			HeaderField::create(_t('CheckoutPage.BILLINGADDRESS', "Billing Address"), 3),
@@ -277,7 +276,7 @@ class Addresses_OrderForm extends Extension
 				_t('CheckoutPage.COUNTRY', "Country"),
 				Country_Billing::get()->map('Code', 'Title')->toArray()
 			)->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCOUNTRY', "Please enter your country."))
-		)->setID('BillingAddress')->setName('BillingAddress');
+		)->setName('BillingAddress');
 
 		$fields->push($shippingAddressFields);
 		$fields->push($billingAddressFields);
@@ -303,7 +302,7 @@ class Addresses_OrderForm extends Extension
 	public function updatePopulateFields(&$data)
 	{
 
-		$member = Customer::currentUser() ? Customer::currentUser() : singleton('Customer');
+		$member = Customer::currentUser() ? Customer::currentUser() : singleton(Customer::class);
 
 		$shippingAddress = $member->ShippingAddress();
 		$shippingAddressData = ($shippingAddress && $shippingAddress->exists())
@@ -411,7 +410,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 						return $controller->renderWith('Includes/ShopAdminSettings_Content');
 					},
 					'Breadcrumbs' => function () use (&$controller) {
-						return $controller->renderWith('SilverStripe/Admin/CMSBreadcrumbs');
+						return $controller->renderWith('SilverStripe/Admin/Includes/CMSBreadcrumbs');
 					},
 					'default' => function () use (&$controller) {
 						return $controller->renderWith($controller->getViewer('show'));
