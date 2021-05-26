@@ -227,7 +227,7 @@ class Addresses_OrderForm extends Extension
 		Requirements::javascript('swipestripe-addresses/javascript/Addresses_OrderForm.js');
 
 		$shippingAddressFields = CompositeField::create(
-			HeaderField::create(_t('CheckoutPage.SHIPPING_ADDRESS', "Shipping Address"), 3),
+			HeaderField::create("ShippingAddressHeader", _t('CheckoutPage.SHIPPING_ADDRESS', "Shipping Address"), 3),
 			TextField::create('ShippingFirstName', _t('CheckoutPage.FIRSTNAME', "First Name"))
 				->addExtraClass('shipping-firstname')
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_FIRSTNAME', "Please enter a first name.")),
@@ -237,7 +237,7 @@ class Addresses_OrderForm extends Extension
 			TextField::create('ShippingAddress', _t('CheckoutPage.ADDRESS', "Address"))
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_ADDRESS', "Please enter an address."))
 				->addExtraClass('address-break'),
-			TextField::create('ShippingAddressLine2', '&nbsp;'),
+			TextField::create('ShippingAddressLine2', 'Address 2'),
 			TextField::create('ShippingCity', _t('CheckoutPage.CITY', "City"))
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_CITY', "Please enter a city.")),
 			TextField::create('ShippingPostalCode', _t('CheckoutPage.POSTAL_CODE', "Zip / Postal Code")),
@@ -253,7 +253,7 @@ class Addresses_OrderForm extends Extension
 		)->setName('ShippingAddress');
 
 		$billingAddressFields = CompositeField::create(
-			HeaderField::create(_t('CheckoutPage.BILLINGADDRESS', "Billing Address"), 3),
+			HeaderField::create("BillingAddressHeader", _t('CheckoutPage.BILLINGADDRESS', "Billing Address"), 3),
 			$checkbox = CheckboxField::create('BillToShippingAddress', _t('CheckoutPage.SAME_ADDRESS', "same as shipping address?"))
 				->addExtraClass('shipping-same-address'),
 			TextField::create('BillingFirstName', _t('CheckoutPage.FIRSTNAME', "First Name"))
@@ -265,7 +265,7 @@ class Addresses_OrderForm extends Extension
 			TextField::create('BillingAddress', _t('CheckoutPage.ADDRESS', "Address"))
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURADDRESS', "Please enter your address."))
 				->addExtraClass('address-break'),
-			TextField::create('BillingAddressLine2', '&nbsp;'),
+			TextField::create('BillingAddressLine2', 'Address 2'),
 			TextField::create('BillingCity', _t('CheckoutPage.CITY', "City"))
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCITY', "Please enter your city")),
 			TextField::create('BillingPostalCode', _t('CheckoutPage.POSTALCODE', "Zip / Postal Code")),
