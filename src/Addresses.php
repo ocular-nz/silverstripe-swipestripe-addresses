@@ -113,7 +113,7 @@ class Addresses_Customer extends DataExtension
 
 		$shippingAddress = Address_Shipping::create(array(
 			'MemberID' => $this->owner->ID,
-			'FirstName' => (isset($data['ShippingFirstName'])) ? $data['ShippingRegionName'] : null,
+			'FirstName' => (isset($data['ShippingFirstName'])) ? $data['ShippingFirstName'] : null,
 			'Surname' => (isset($data['ShippingSurname'])) ? $data['ShippingSurname'] : null,
 			'Company' => (isset($data['ShippingCompany'])) ? $data['ShippingCompany'] : null,
 			'Address' => (isset($data['ShippingAddress'])) ? $data['ShippingAddress'] : null,
@@ -226,6 +226,8 @@ class Addresses_OrderForm extends Extension
 
 		Requirements::javascript('swipestripe-addresses/javascript/Addresses_OrderForm.js');
 
+		$countries_shipping = Country_Shipping::get()->map('Code', 'Title')->toArray();
+
 		$shippingAddressFields = CompositeField::create(
 			HeaderField::create("ShippingAddressHeader", _t('CheckoutPage.SHIPPING_ADDRESS', "Shipping Address"), 3),
 			TextField::create('ShippingFirstName', _t('CheckoutPage.FIRSTNAME', "First Name"))
@@ -246,12 +248,14 @@ class Addresses_OrderForm extends Extension
 			DropdownField::create(
 				'ShippingCountryCode',
 				_t('CheckoutPage.COUNTRY', "Country"),
-				Country_Shipping::get()->map('Code', 'Title')->toArray()
+				$countries_shipping
 			)
 				->setCustomValidationMessage(_t('CheckoutPage.PLEASE_ENTER_COUNTRY', "Please enter a country."))
 				->addExtraClass('country-code')
+				->setValue(array_key_first($countries_shipping))
 		)->setName('ShippingAddress');
 
+		$countries_billing = Country_Billing::get()->map('Code', 'Title')->toArray();
 		$billingAddressFields = CompositeField::create(
 			HeaderField::create("BillingAddressHeader", _t('CheckoutPage.BILLINGADDRESS', "Billing Address"), 3),
 			$checkbox = CheckboxField::create('BillToShippingAddress', _t('CheckoutPage.SAME_ADDRESS', "same as shipping address?"))
@@ -274,8 +278,9 @@ class Addresses_OrderForm extends Extension
 			DropdownField::create(
 				'BillingCountryCode',
 				_t('CheckoutPage.COUNTRY', "Country"),
-				Country_Billing::get()->map('Code', 'Title')->toArray()
+				$countries_billing
 			)->setCustomValidationMessage(_t('CheckoutPage.PLEASEENTERYOURCOUNTRY', "Please enter your country."))
+				->setValue(array_key_first($countries_billing))
 		)->setName('BillingAddress');
 
 		$fields->push($shippingAddressFields);
