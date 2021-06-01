@@ -376,7 +376,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 	{
 		parent::init();
 		if (!in_array(get_class($this), self::$hidden_sections)) {
-			$this->modelClass = ShopConfig::class;
+			$this->modelTab = ShopConfig::class;
 		}
 	}
 
@@ -390,7 +390,7 @@ class Addresses_CountriesAdmin extends ShopAdmin
 
 		$items->push(new ArrayData(array(
 			'Title' => 'Countries',
-			'Link' => $this->Link(Controller::join_links($this->sanitiseClassName($this->modelClass), 'Countries'))
+			'Link' => $this->Link(Controller::join_links($this->sanitiseClassName($this->modelTab), 'Countries'))
 		)));
 
 		return $items;
@@ -475,8 +475,8 @@ class Addresses_CountriesAdmin extends ShopAdmin
 		$form->setTemplate('Includes/ShopAdminSettings_EditForm');
 		$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 		$form->addExtraClass('cms-content cms-edit-form center ss-tabset');
-		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
-		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelClass)), 'Countries/CountriesForm'));
+		if ($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('SilverStripe/Forms/CMSTabSet');
+		$form->setFormAction(Controller::join_links($this->Link($this->sanitiseClassName($this->modelTab)), 'Countries/CountriesForm'));
 
 		$form->loadDataFrom($shopConfig);
 
