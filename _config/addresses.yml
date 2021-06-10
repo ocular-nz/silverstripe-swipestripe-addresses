@@ -14,3 +14,9 @@ SwipeStripe\Form\OrderForm:
 SwipeStripe\Admin\ShopConfig:
   extensions: 
     - 'Addresses\Addresses_Extension'
+
+
+SilverStripe\Core\Manifest\ModuleManifest:
+  module_priority:
+    - swipestripe/swipestripe-addresses
+    - swipestripe/swipestripe
