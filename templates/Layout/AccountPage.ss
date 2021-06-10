@@ -23,7 +23,7 @@
 				<% loop Orders %>
 				<tr>
 					<td>$ID</td>
-					<td>$OrderedOn.Format(j M y)</td>
+					<td>$OrderedOn.Format(d MMM y)</td>
 					<td>
 						<% if ShippingAddress %>      $ShippingAddress<br />      <% end_if %>
 						<% if ShippingAddressLine2 %> $ShippingAddressLine2<br /> <% end_if %>
