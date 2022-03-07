@@ -102,11 +102,11 @@ class Addresses_Customer extends DataExtension
 
 		// Set Firstname/Surname Fields on Member table
 		if (!$this->owner->FirstName) {
-			$this->owner->FirstName = $data['ShippingFirstName'];
+			$this->owner->FirstName = $data['ShippingFirstName'] ?: ($data['BillingFirstName'] ?: 'Unnamed');
 			$this->owner->write();
 		}
 		if (!$this->owner->Surname) {
-			$this->owner->Surname = $data['ShippingSurname'];
+			$this->owner->Surname = $data['ShippingSurname'] ?: ($data['BillingSurname'] ?: 'Account');
 			$this->owner->write();
 		}
 
