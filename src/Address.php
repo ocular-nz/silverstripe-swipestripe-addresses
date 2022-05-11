@@ -60,11 +60,21 @@ class Address extends DataObject
 		if ($this->Default == true) {
 
 			$addrs = Address::get()
-				->where("\"ClassName\" = '" . get_class($this) . "' AND \"MemberID\" = '{$this->MemberID}' AND \"Default\" = 1 AND \"ID\" != {$this->ID}");
+				->filter([
+					'ClassName' => get_class($this),
+					'MemberID' => $this->MemberID,
+					'Default' => 1 
+				])->exclude('ID', $this->ID);
 
-			if ($addrs && $addrs->exists()) foreach ($addrs as $addr) {
-				$addr->Default = 0;
-				$addr->write();
+
+				//->where("`ClassName` = '" . addslashes(get_class($this)) . "' AND `MemberID` = '{$this->MemberID}' AND `Default` = 1 AND `ID` != {$this->ID}");
+
+
+			if ($addrs && $addrs->exists()) {
+				foreach ($addrs as $addr) {
+					$addr->Default = 0;
+					$addr->write();
+				}
 			}
 		}
 	}
