@@ -28,7 +28,8 @@
 				<% else %>
 					$PaymentStatus<br />
 				<% end_if %>
-				Product substitutions: <% if $Substitute %>$Substitute<% else %>Not indicated, check notes<% end_if %>
+				Product substitutions: <% if $Substitute %>$Substitute<% else %>Not indicated, check updates<% end_if %><br />
+				Notes: $Notes
 			</td>
 		</tr>
 	</table>
