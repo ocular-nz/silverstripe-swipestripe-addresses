@@ -36,7 +36,7 @@
 					<% include OrderPayments %>
 				<% end_if %>
 			 
-				<% if CustomerUpdates %>
+				<% if CustomerUpdates || Notes %>
 					<% include OrderNotes %>
 				<% end_if %>
 			</div>
