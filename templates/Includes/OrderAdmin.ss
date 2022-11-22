@@ -29,7 +29,9 @@
 					$PaymentStatus<br />
 				<% end_if %>
 				Product substitutions: <% if $Substitute %>$Substitute<% else %>Not indicated, check updates<% end_if %><br />
-				Notes: $Notes
+				Notes: $Notes<br />
+
+				<a href="/account/loginas/$Member.ID/$ID">Impersonate</a>
 			</td>
 		</tr>
 	</table>
