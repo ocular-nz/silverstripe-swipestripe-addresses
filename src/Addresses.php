@@ -75,7 +75,7 @@ class Addresses_Order extends DataExtension
 		if ($country && $country->exists()) $this->owner->BillingCountryName = $country->Title;
 	}
 
-	public function onBeforePayment()
+	public function onAfterConfirm()
 	{
 		//Save the addresses to the Customer
 		$customer = $this->owner->Member();
