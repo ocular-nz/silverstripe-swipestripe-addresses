@@ -26,6 +26,7 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Admin\ShopAdmin;
 use SwipeStripe\Admin\ShopConfig;
+use SwipeStripe\Customer\Cart;
 use SwipeStripe\Customer\Customer;
 
 class Addresses_Order extends DataExtension
@@ -74,7 +75,7 @@ class Addresses_Order extends DataExtension
 		if ($country && $country->exists()) $this->owner->BillingCountryName = $country->Title;
 	}
 
-	public function onBeforePayment()
+	public function onAfterConfirm()
 	{
 		//Save the addresses to the Customer
 		$customer = $this->owner->Member();
@@ -305,22 +306,38 @@ class Addresses_OrderForm extends Extension
 
 	public function updatePopulateFields(&$data)
 	{
-
 		$member = Customer::currentUser() ? Customer::currentUser() : singleton(Customer::class);
 
-		$shippingAddress = $member->ShippingAddress();
-		$shippingAddressData = ($shippingAddress && $shippingAddress->exists())
-			? $shippingAddress->getCheckoutFormData()
-			: array();
+		$order = Cart::get_current_order(); 
+
+		// populate the form with the current order's shipping and billing address data if it exists
+		$shippingAddressData = $order->getShippingAddressFields();
+
+		if (!$shippingAddressData['ShippingAddress']) {
+			// If the order has no shipping or billing address, then use the current user's addresses
+			$shippingAddress = $member->ShippingAddress();
+
+			$shippingAddressData = ($shippingAddress && $shippingAddress->exists())
+				? $shippingAddress->getCheckoutFormData()
+				: array();
+
+		}
+
 		unset($shippingAddressData['ShippingRegionCode']); //Not available billing address option
 
-		$billingAddress = $member->BillingAddress();
-		$billingAddressData = ($billingAddress && $billingAddress->exists())
-			? $billingAddress->getCheckoutFormData()
-			: array();
+		$billingAddressData = $order->getBillingAddressFields();
+
+		if (!$billingAddressData['BillingAddress']) {
+			$billingAddress = $member->BillingAddress();
+
+			$billingAddressData = ($billingAddress && $billingAddress->exists())
+				? $billingAddress->getCheckoutFormData()
+				: array();
+		}
 
 		//If billing address is a subset of shipping address, consider them equal
 		$intersect = array_intersect(array_values($shippingAddressData), array_values($billingAddressData));
+
 		if (array_values($intersect) == array_values($billingAddressData)) $billingAddressData['BillToShippingAddress'] = true;
 
 		$data = array_merge(
@@ -328,6 +345,7 @@ class Addresses_OrderForm extends Extension
 			$shippingAddressData,
 			$billingAddressData
 		);
+
 	}
 
 	public function getShippingAddressFields()
