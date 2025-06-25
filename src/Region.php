@@ -8,7 +8,7 @@ use SwipeStripe\Admin\ShopConfig;
 
 /**
  * Regions for countries
- * 
+ *
  * @author Frank Mullenger <frankmullenger@gmail.com>
  * @copyright Copyright (c) 2012, Frank Mullenger
  * @package swipestripe
@@ -21,21 +21,21 @@ class Region extends DataObject
 
 	/**
 	 * Singular name
-	 * 
+	 *
 	 * @var String
 	 */
 	private static $singular_name = 'Region';
 
 	/**
 	 * Plural name
-	 * 
+	 *
 	 * @var String
 	 */
 	private static $plural_name = 'Regions';
 
 	/**
-	 * Fields 
-	 * 
+	 * Fields
+	 *
 	 * @var Array
 	 */
 	private static $db = array(
@@ -46,7 +46,7 @@ class Region extends DataObject
 
 	/**
 	 * Managed via the SiteConfig, regions are related to Countries
-	 * 
+	 *
 	 * @var Array
 	 */
 	private static $has_one = array(
@@ -56,7 +56,7 @@ class Region extends DataObject
 
 	/**
 	 * Summary fields
-	 * 
+	 *
 	 * @var Array
 	 */
 	private static $summary_fields = array(
@@ -70,15 +70,15 @@ class Region extends DataObject
 	/**
 	 * Convenience function to prevent errors thrown
 	 */
-	public function forTemplate()
+	public function forTemplate(): string
 	{
-		return;
+		return '';
 	}
 
 	/**
 	 * Retrieve map of shipping regions including Country code
-	 * 
-	 * @return Array 
+	 *
+	 * @return Array
 	 */
 	public static function shipping_map()
 	{
@@ -98,7 +98,7 @@ class Region extends DataObject
 
 /**
  * Shipping regions
- * 
+ *
  * @author Frank Mullenger <frankmullenger@gmail.com>
  * @copyright Copyright (c) 2012, Frank Mullenger
  * @package swipestripe
@@ -109,7 +109,7 @@ class Region_Shipping extends Region
 
 	/**
 	 * Fields for CRUD of shipping regions
-	 * 
+	 *
 	 * @see DataObject::getCMSFields()
 	 */
 	public function getCMSFields()
@@ -136,7 +136,7 @@ class Region_Shipping extends Region
 
 /**
  * Billing regions, not currently used
- * 
+ *
  * @author Frank Mullenger <frankmullenger@gmail.com>
  * @copyright Copyright (c) 2012, Frank Mullenger
  * @package swipestripe

@@ -14,22 +14,21 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\ArrayData;
 use SilverStripe\View\Requirements;
 use SwipeStripe\Admin\ShopAdmin;
 use SwipeStripe\Admin\ShopConfig;
 use SwipeStripe\Customer\Cart;
 use SwipeStripe\Customer\Customer;
 
-class Addresses_Order extends DataExtension
+class Addresses_Order extends Extension
 {
 
 	private static $db = array(
@@ -43,7 +42,7 @@ class Addresses_Order extends DataExtension
 		'ShippingPostalCode' => 'Varchar(30)',
 		'ShippingState' => 'Varchar(100)',
 		'ShippingCountryName' => 'Varchar',
-		'ShippingCountryCode' => 'Varchar(2)', //ISO 3166 
+		'ShippingCountryCode' => 'Varchar(2)', //ISO 3166
 		'ShippingRegionName' => 'Varchar',
 		'ShippingRegionCode' => 'Varchar(2)',
 
@@ -56,7 +55,7 @@ class Addresses_Order extends DataExtension
 		'BillingPostalCode' => 'Varchar(30)',
 		'BillingState' => 'Varchar(100)',
 		'BillingCountryName' => 'Varchar',
-		'BillingCountryCode' => 'Varchar(2)', //ISO 3166 
+		'BillingCountryCode' => 'Varchar(2)', //ISO 3166
 		'BillingRegionName' => 'Varchar',
 		'BillingRegionCode' => 'Varchar(2)'
 	);
@@ -85,7 +84,7 @@ class Addresses_Order extends DataExtension
 	}
 }
 
-class Addresses_Customer extends DataExtension
+class Addresses_Customer extends Extension
 {
 
 	private static $has_many = array(
@@ -184,7 +183,7 @@ class Addresses_Customer extends DataExtension
 	/**
 	 * Retrieve the last used billing address for this Member from their previous saved addresses.
 	 * TODO make this more efficient
-	 * 
+	 *
 	 * @return Address The last billing address
 	 */
 	public function BillingAddress()
@@ -202,7 +201,7 @@ class Addresses_Customer extends DataExtension
 	/**
 	 * Retrieve the last used shipping address for this Member from their previous saved addresses.
 	 * TODO make this more efficient
-	 * 
+	 *
 	 * @return Address The last shipping address
 	 */
 	public function ShippingAddress()
@@ -290,7 +289,7 @@ class Addresses_OrderForm extends Extension
 	public function updateValidator($validator)
 	{
 
-		$validator->appendRequiredFields(RequiredFields::create(
+		$validator->appendRequiredFields(RequiredFieldsValidator::create(
 			'ShippingFirstName',
 			'ShippingSurname',
 			'ShippingAddress',
@@ -308,7 +307,7 @@ class Addresses_OrderForm extends Extension
 	{
 		$member = Customer::currentUser() ? Customer::currentUser() : singleton(Customer::class);
 
-		$order = Cart::get_current_order(); 
+		$order = Cart::get_current_order();
 
 		// populate the form with the current order's shipping and billing address data if it exists
 		$shippingAddressData = $order->getShippingAddressFields();
@@ -359,7 +358,7 @@ class Addresses_OrderForm extends Extension
 	}
 }
 
-class Addresses_Extension extends DataExtension
+class Addresses_Extension extends Extension
 {
 
 	private static $has_many = array(
