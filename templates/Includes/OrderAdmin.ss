@@ -24,7 +24,7 @@
 			<td>
 				$OrderedOn.Format(d MMM y - h:mm a)<br />
 				<% if IsStandingOrder %>
-					Billing ID: <% if Member.WindcaveBillingId %>$Member.WindcaveBillingId<% else %>Not found<% end_if %><br />
+					Saved Card: <% if $getValidSavedCard %>$getValidSavedCard.getCardDescription (ID: $getValidSavedCard.DpsBillingId)<% else %>Not found<% end_if %><br />
 				<% else %>
 					$PaymentStatus<br />
 				<% end_if %>
