@@ -138,8 +138,8 @@ class Addresses_Customer extends Extension
 			'State' => (isset($data['BillingState'])) ? $data['BillingState'] : null,
 			'CountryName' => (isset($data['BillingCountryName'])) ? $data['BillingCountryName'] : null,
 			'CountryCode' => (isset($data['BillingCountryCode'])) ? $data['BillingCountryCode'] : null,
-			'RegionName' => (isset($data['BillingRegionName'])) ? $data['ShippingRegionName'] : null,
-			'RegionCode' => (isset($data['BillingRegionCode'])) ? $data['ShippingRegionCode'] : null,
+			'RegionName' => (isset($data['BillingRegionName'])) ? $data['BillingRegionName'] : null,
+			'RegionCode' => (isset($data['BillingRegionCode'])) ? $data['BillingRegionCode'] : null,
 		));
 
 		//Look for identical existing addresses
